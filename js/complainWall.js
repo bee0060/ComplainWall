@@ -16,7 +16,8 @@
 		on: new Date()
 	}
 	*/
-	var complainList = [],
+	var BE_URL = 'http://10.22.16.68:4000/',
+		complainList = [],
 		currentLength = 0;
 
 	function loadComplainList() {
@@ -91,7 +92,7 @@
 
 	function getComplainList(callback) {
 		$.ajax({
-			url: 'http://10.22.16.68:4000/complaint/list',
+			url: BE_URL + 'complaint/list',
 			dataType: 'JSON',
 			type: 'GET',
 			success: function(response) {
@@ -115,7 +116,7 @@
 	function saveComplain(complainObject, callback) {
 		complainList.push(complainObject);
 		$.ajax({
-			url: 'http://10.22.16.68:4000/complaint',
+			url: BE_URL + 'complaint',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json;charset=UTF-8'
@@ -148,8 +149,6 @@
 				hour = d.getHours() + 8,
 				min = d.getMinutes(),
 				sec = d.getSeconds();
-
-			// return date.toLocaleString();
 
 			return year + '/' + month + '/' + date + ' ' + hour + ':' + min;
 		}
