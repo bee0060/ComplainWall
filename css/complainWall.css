@@ -1,0 +1,37 @@
+.page-title{
+	float: left;
+	height: 40px;
+	margin: 0 30px 0;
+}
+
+.introduction {
+	display: block;
+	float: left;
+	height: 30px;
+	margin: 10px 0 0 800px;
+	width: 100px;
+}
+
+.wall{ 
+	border:1px solid #000;
+	clear: both;
+	height: 500px;
+	margin: 30px;
+	padding:0px; 
+	scroll-y:auto;
+	width: 1200px;
+  }
+.complainList{}
+
+.complain{
+	list-style-type: none;
+}
+.input-container{
+	margin: 0 30px;
+}
+.complainContent{
+	height: 150px;
+	margin-top: 20px;
+	resize: none;
+	width: 1200px;
+}

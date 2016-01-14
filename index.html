@@ -1,0 +1,34 @@
+<html>
+<head>
+	<title>Complain Wall</title>
+	<meta  charset="UTF-8">
+
+	<link rel="stylesheet" type="text/css" href="css/complainWall.css">
+</head>
+<body>
+	<h2 class="page-title">Complain Wall (抱怨墙)</h2>
+	<a class="introduction" href="introduction.html">Introduction</a>
+	<div class="wall">
+		<ul class="complainList">
+			<!-- <li class="complain">
+				<span></span>to <a href="javascript:void(0);">Peter</a>:
+				<span>I hate you!</span>
+			</li>
+			<li class="complain">
+				to <a href="javascript:void(0);">Ken</a>:
+				<span>I hate you, too!</span>
+			</li> -->
+		</ul>
+	</div>
+	<div class="input-container">
+		complain to: <input id="txtTo" type="text">
+		<button onclick="complain()">complain!</button>
+		<br>
+		<textarea id="txaContent" class="complainContent"></textarea>
+	</div>
+
+
+	<script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
+	<script type="text/javascript" src="js/complainWall.js"></script>
+</body>
+</html>
