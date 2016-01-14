@@ -33,21 +33,13 @@
 			var li = $('li');
 			li.addClass('complain');
 			html.push('<li class="complain">',
-				'To <a href="javascript:void(0);">', complainList[i].to || 'somebody', '</a>',
+				'To <a href="javascript:void(0);" onclick="selectComplainTo(this);">', complainList[i].to || 'somebody', '</a>',
 				'<span> at ', formatDate(complainList[i].on), ': </span>',
 				'<span>', complainList[i].content, '</span>',
 				'</li>');
 		}
 
 		list.html(html.join(''));
-	}
-
-	function formatDate(date) {
-		var d = new Date(date);
-		if (date && d instanceof Date) {
-			return date.toLocaleString();
-		}
-		return 'Sometime';
 	}
 
 	function complain() {
@@ -68,7 +60,10 @@
 			to: to,
 			content: content,
 			on: new Date()
-		},loadComplainList);
+		}, function() {
+			loadComplainList();
+			alert('抱怨成功！');
+		});
 	}
 
 
@@ -117,12 +112,36 @@
 		});
 	}
 
+	function selectComplainTo(o) {
+		$('#txtTo').val($(o).text());
+	}
+
+	/* Common functions */
+	function formatDate(date) {
+		var d = new Date(date);
+		if (date && d instanceof Date) {
+			return date.toLocaleString();
+		}
+		return 'Sometime';
+	}
+
+	$(document).on('keydown', function(e) {
+		if (e.ctrlKey && e.keyCode === 13) {
+			complain();
+		}
+	});
 
 	loadComplainList();
+
+	// 10秒自动刷新一次
+	setInterval(function() {
+		loadComplainList();
+	}, 1000 * 10)
 
 
 	// register to global
 	global = global || window;
 	global.complain = complain;
+	global.selectComplainTo = selectComplainTo;
 
 })(window);
