@@ -37,7 +37,7 @@
 			var li = $('li');
 			li.addClass('complain');
 			arrHtml.push('<li style="opacity:0;" class="complain">',
-				'To <a href="javascript:void(0);" onclick="selectComplainTo(this);">', complainList[i].to || 'somebody', '</a>',
+				'To <a href="javascript:void(0);"	>', complainList[i].to || 'somebody', '</a>',
 				'<span> at ', formatDate(complainList[i].on), ': </span>',
 				'<span>', complainList[i].content, '</span>',
 				'</li>');
@@ -78,7 +78,7 @@
 		}, function() {
 			loadComplainList();
 			resetInputFields();
-			alert('抱怨成功！');
+			// alert('抱怨成功！');
 		});
 	}
 
@@ -100,8 +100,8 @@
 				for (var i = 0, len = response.length; i < len; i++) {
 					complainList.push({
 						id: response[i].id,
-						to: response[i].complainTo,
-						content: response[i].complainContent,
+						to: decodeURIComponent(response[i].complainTo),
+						content: decodeURIComponent(response[i].complainContent),
 						on: response[i].complainDate
 					});
 				}
@@ -122,11 +122,11 @@
 				'Content-Type': 'application/json;charset=UTF-8'
 			},
 			dataType: 'JSON',
-			data: JSON.stringify({
-				complainTo: complainObject.to,
-				complainContent: complainObject.content
-			}),
 			type: 'POST',
+			data: JSON.stringify({
+				complainTo: encodeURIComponent(complainObject.to),
+				complainContent: encodeURIComponent(complainObject.content)
+			}),			
 			success: function(response) {
 				if (typeof callback === 'function') {
 					callback(response);
@@ -171,9 +171,15 @@
 		}
 	});
 
+	$('#btnComplain').on('click',function(e){
+		complain();
+	});
+
+	$('.complainList').on('click', 'li a',function(e){
+		selectComplainTo(e.target);
+	})
+
 	// register to global
 	global = global || window;
-	global.complain = complain;
-	global.selectComplainTo = selectComplainTo;
 
 })(window);
