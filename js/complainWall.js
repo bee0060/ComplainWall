@@ -51,7 +51,6 @@
 		}
 
 		currentLength = targetComplainLength;
-		console.log(newComplainCount,$(list).find('li:lt(' + newComplainCount + ')').length);
 		$(list).find('li:lt(' + newComplainCount + ')').animate({
 			'opacity': 1
 		}, 1500);
