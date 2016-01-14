@@ -62,10 +62,18 @@
 			on: new Date()
 		}, function() {
 			loadComplainList();
+			resetInputFields();
 			alert('抱怨成功！');
 		});
 	}
 
+	function resetInputFields() {
+		var txtTo = $('#txtTo'),
+			txaContent = $('#txaContent');
+
+		txtTo.val('');
+		txaContent.val('');
+	}
 
 	function getComplainList(callback) {
 		$.ajax({
