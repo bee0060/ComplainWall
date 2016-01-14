@@ -65,7 +65,7 @@
 			return false;
 		}
 
-		if (!/^[a-z ]+$/gi.test(to)) {
+		if (!/^[a-z ]+$/i.test(to)) {
 			alert('这里只能对英文名抱怨');
 		}
 
