@@ -142,12 +142,21 @@
 	function formatDate(date) {
 		var d = new Date(date);
 		if (date && d instanceof Date) {
-			return date.toLocaleString();
+			var year = d.getFullYear(),
+				month = d.getMonth() + 1,
+				date = d.getDate(),
+				hour = d.getHours() + 8,
+				min = d.getMinutes(),
+				sec = d.getSeconds();
+
+			// return date.toLocaleString();
+
+			return year + '/' + month + '/' + date + ' ' + hour + ':' + min;
 		}
 		return 'Sometime';
 	}
 
-	
+
 	// 初始化页面
 	loadComplainList();
 
