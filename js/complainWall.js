@@ -16,30 +16,45 @@
 		on: new Date()
 	}
 	*/
-	var complainList = [];
+	var complainList = [],
+		currentLength = 0;
 
 	function loadComplainList() {
 		getComplainList(bindComplainList);
 	}
 
 	function bindComplainList() {
-		var list = $('.complainList');
+		var list = $('.complainList'),
+			targetComplainLength = complainList.length,
+			newComplainCount = targetComplainLength - currentLength;
 
-		list.html('');
+		var arrHtml = [],
+			strHtml = '';
 
-		var html = [];
 
-		for (var i = complainList.length - 1; i >= 0; i--) {
+		for (var i = complainList.length - 1; i >= currentLength; i--) {
 			var li = $('li');
 			li.addClass('complain');
-			html.push('<li class="complain">',
+			arrHtml.push('<li style="opacity:0;" class="complain">',
 				'To <a href="javascript:void(0);" onclick="selectComplainTo(this);">', complainList[i].to || 'somebody', '</a>',
 				'<span> at ', formatDate(complainList[i].on), ': </span>',
 				'<span>', complainList[i].content, '</span>',
 				'</li>');
 		}
 
-		list.html(html.join(''));
+		strHtml = arrHtml.join('');
+
+		if (currentLength) {
+			$(strHtml).insertBefore(list.find(':eq(0)'));
+		} else {
+			list.append(strHtml);
+		}
+
+		currentLength = targetComplainLength;
+		console.log(newComplainCount,$(list).find('li:lt(' + newComplainCount + ')').length);
+		$(list).find('li:lt(' + newComplainCount + ')').animate({
+			'opacity': 1
+		}, 1500);
 	}
 
 	function complain() {
@@ -133,12 +148,8 @@
 		return 'Sometime';
 	}
 
-	$(document).on('keydown', function(e) {
-		if (e.ctrlKey && e.keyCode === 13) {
-			complain();
-		}
-	});
-
+	
+	// 初始化页面
 	loadComplainList();
 
 	// 10秒自动刷新一次
@@ -146,6 +157,12 @@
 		loadComplainList();
 	}, 1000 * 10)
 
+	// 注册热键事件
+	$(document).on('keydown', function(e) {
+		if (e.ctrlKey && e.keyCode === 13) {
+			complain();
+		}
+	});
 
 	// register to global
 	global = global || window;
