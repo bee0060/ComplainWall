@@ -1,3 +1,7 @@
+body{
+	font-size: 16px;
+}
+
 .page-title{
 	float: left;
 	height: 40px;
@@ -27,6 +31,12 @@
 .complain{
 	list-style-type: none;
 }
+
+.complain-on{
+	font-size: 12px;
+}
+
+
 .input-container{
 	margin: 0 30px;
 }

@@ -38,7 +38,7 @@
 			li.addClass('complain');
 			arrHtml.push('<li style="opacity:0;" class="complain">',
 				'To <a href="javascript:void(0);"	>', complainList[i].to || 'somebody', '</a>',
-				'<span> at ', formatDate(complainList[i].on), ': </span>',
+				'<span class="complain-on"> at ', formatDate(complainList[i].on), ': </span>',
 				'<span>', complainList[i].content, '</span>',
 				'</li>');
 		}
@@ -126,7 +126,7 @@
 			data: JSON.stringify({
 				complainTo: encodeURIComponent(complainObject.to),
 				complainContent: encodeURIComponent(complainObject.content)
-			}),			
+			}),
 			success: function(response) {
 				if (typeof callback === 'function') {
 					callback(response);
@@ -144,15 +144,30 @@
 		var d = new Date(date);
 		if (date && d instanceof Date) {
 			var year = d.getFullYear(),
-				month = d.getMonth() + 1,
-				date = d.getDate(),
-				hour = d.getHours() + 8,
-				min = d.getMinutes(),
-				sec = d.getSeconds();
+				month = padLeft(d.getMonth() + 1, 2, 0),
+				date = padLeft(d.getDate(), 2, 0),
+				hour = padLeft(d.getHours() + 8, 2, 0),
+				min = padLeft(d.getMinutes(), 2, 0),
+				sec = padLeft(d.getSeconds(), 2, 0);
 
 			return year + '/' + month + '/' + date + ' ' + hour + ':' + min;
 		}
 		return 'Sometime';
+	}
+
+	function padLeft(str, len, char) {
+		if (!str || !len) {
+			return '';
+		}
+
+		var strLen = str.toString().length;
+
+		if (strLen >= len) {
+			return str;
+		} else {
+			arr = new Array(len - strLen + 1);
+			return arr.join(char) + str;
+		}
 	}
 
 
@@ -171,11 +186,11 @@
 		}
 	});
 
-	$('#btnComplain').on('click',function(e){
+	$('#btnComplain').on('click', function(e) {
 		complain();
 	});
 
-	$('.complainList').on('click', 'li a',function(e){
+	$('.complainList').on('click', 'li a', function(e) {
 		selectComplainTo(e.target);
 	})
 
