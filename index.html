@@ -4,6 +4,18 @@
 	<meta  charset="UTF-8">
 
 	<link rel="stylesheet" type="text/css" href="css/complainWall.css">
+	
+	<script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+	<script>
+	  // Initialize Firebase
+	  var config = {
+	    apiKey: "AIzaSyDhhQhfPbSSMWTTHh-ljGYFXqUuQxWZArk",
+	    authDomain: "whqstevenweng.firebaseapp.com",
+	    databaseURL: "https://whqstevenweng.firebaseio.com",
+	    storageBucket: "whqstevenweng.appspot.com",
+	  };
+	  firebase.initializeApp(config);
+	</script>
 </head>
 <body>
 	<h2 class="page-title">Complain Wall (抱怨墙)</h2>
@@ -26,8 +38,7 @@
 		<br>
 		<textarea id="txaContent" class="complainContent"></textarea>
 	</div>
-
-
+	
 	<script type="text/javascript" src="js/jquery-1.9.0.min.js"></script>
 	<script type="text/javascript" src="js/complainWall.js"></script>
 </body>

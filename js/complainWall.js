@@ -1,4 +1,4 @@
-(function(global) {
+(function(global, db) {
 
 	if (typeof window.localStorage['readIntroduction'] === undefined) {
 		if (confirm("你应该是第一次来，建议你先点开页面右上角的 Introduction链接，看看抱怨墙的介绍。是不是现在就看？")) {
@@ -20,8 +20,30 @@
 		complainList = [],
 		currentLength = 0;
 
-	function loadComplainList() {
-		getComplainList(bindComplainList);
+	function registerDataAutoSync() {
+		var ref = db.ref('complains/');
+		ref.on('value', function(snapshot) {
+			var srcData = snapshot.val(),
+				list = [],
+				ele;
+
+			complainList = [];
+
+			console.log('value', snapshot.val());
+
+			for (var key in srcData) {
+				ele = srcData[key];
+
+				complainList.push({
+					id: ele.id,
+					to: decodeURIComponent(ele.to),
+					content: decodeURIComponent(ele.content),
+					on: new Date(ele.on)
+				});
+			}
+
+			bindComplainList();
+		});
 	}
 
 	function bindComplainList() {
@@ -59,7 +81,8 @@
 
 	function complain() {
 		var to = $('#txtTo').val(),
-			content = $('#txaContent').val();
+			content = $('#txaContent').val(),
+			now = +(new Date());
 
 		if (!to || !content) {
 			alert('你要抱怨谁？ 要抱怨什么？ 你总得写一下吧.');
@@ -74,11 +97,9 @@
 			id: complainList.length + 1,
 			to: to,
 			content: content,
-			on: new Date()
+			on: now
 		}, function() {
-			loadComplainList();
 			resetInputFields();
-			// alert('抱怨成功！');
 		});
 	}
 
@@ -90,49 +111,14 @@
 		txaContent.val('');
 	}
 
-	function getComplainList(callback) {
-		$.ajax({
-			url: BE_URL + 'complaint/list',
-			dataType: 'JSON',
-			type: 'GET',
-			success: function(response) {
-				complainList = [];
-				for (var i = 0, len = response.length; i < len; i++) {
-					complainList.push({
-						id: response[i].id,
-						to: decodeURIComponent(response[i].complainTo),
-						content: decodeURIComponent(response[i].complainContent),
-						on: response[i].complainDate
-					});
-				}
-
-				if (typeof callback === 'function') {
-					callback(response);
-				}
-			}
-		});
-	}
-
 	function saveComplain(complainObject, callback) {
+		complainObject = db.ref('complains/').push(complainObject);
+
+		if (typeof callback === 'function') {
+			callback(response);
+		}
+
 		complainList.push(complainObject);
-		$.ajax({
-			url: BE_URL + 'complaint',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json;charset=UTF-8'
-			},
-			dataType: 'JSON',
-			type: 'POST',
-			data: JSON.stringify({
-				complainTo: encodeURIComponent(complainObject.to),
-				complainContent: encodeURIComponent(complainObject.content)
-			}),
-			success: function(response) {
-				if (typeof callback === 'function') {
-					callback(response);
-				}
-			}
-		});
 	}
 
 	function selectComplainTo(o) {
@@ -171,13 +157,7 @@
 	}
 
 
-	// 初始化页面
-	loadComplainList();
-
-	// 10秒自动刷新一次
-	setInterval(function() {
-		loadComplainList();
-	}, 1000 * 10)
+	registerDataAutoSync();
 
 	// 注册热键事件
 	$(document).on('keydown', function(e) {
@@ -197,4 +177,4 @@
 	// register to global
 	global = global || window;
 
-})(window);
+})(window, firebase.database());
