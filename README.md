@@ -6,14 +6,10 @@
 
 当然你也可以用作他途。
 
-这里只有前端代码， 你需要自行实现后端。 
+你可以随意扩展。实现你自己的抱怨墙.
 
-你可以随意扩展。实现你自己的抱怨墙
+这里用了firebase作为数据库。暂时还未将数据操作的方法单独抽离。 firebase和一般REST请求后端不同， 不需要get， 可以设置侦听事件，在数据改变时会自动触发获取数据，只要在侦听事件里添加展示列表的功能即可。
 
-
-Only front end code here.
-
-You could enhance it and implement your own backend.
 
 
 

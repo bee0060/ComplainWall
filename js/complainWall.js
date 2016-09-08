@@ -115,7 +115,7 @@
 		complainObject = db.ref('complains/').push(complainObject);
 
 		if (typeof callback === 'function') {
-			callback(response);
+			callback();
 		}
 
 		complainList.push(complainObject);
