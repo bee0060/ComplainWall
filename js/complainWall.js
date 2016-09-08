@@ -84,19 +84,15 @@
 			content = $('#txaContent').val(),
 			now = +(new Date());
 
-		if (!to || !content) {
+		if (!to.trim() || !content.trim()) {
 			alert('你要抱怨谁？ 要抱怨什么？ 你总得写一下吧.');
 			return false;
 		}
 
-		if (!/^[a-z ]+$/i.test(to)) {
-			alert('这里只能对英文名抱怨');
-		}
-
 		saveComplain({
 			id: complainList.length + 1,
-			to: to,
-			content: content,
+			to: to.trim(),
+			content: content.trim(),
 			on: now
 		}, function() {
 			resetInputFields();
