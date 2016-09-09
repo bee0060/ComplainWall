@@ -29,8 +29,6 @@
 
 			complainList = [];
 
-			console.log('value', snapshot.val());
-
 			for (var key in srcData) {
 				ele = srcData[key];
 
